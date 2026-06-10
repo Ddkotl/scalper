@@ -12,7 +12,7 @@ if (!API_KEY || !SECRET_KEY) {
   );
   process.exit(1);
 }
-
+let STOP_TIME = 0
 // Инициализируем клиент SDK
 const client = new Spot(API_KEY, SECRET_KEY);
 
@@ -20,7 +20,7 @@ const client = new Spot(API_KEY, SECRET_KEY);
 const SYMBOL = "PLBUSDT";
 const QUANTITY = 6; // Минимальный объем для тестов
 const PRICE_STEP = 0.0001; // Шаг цены для монеты PLBUSDT
-const STOP_LOSS_PCT = 0.1; // Защитный стоп-лосс в процентах
+const STOP_LOSS_PCT = 0.2; // Защитный стоп-лосс в процентах
 
 interface ChannelData {
   lowerBound: number;
@@ -90,7 +90,7 @@ async function getChannelBounds(): Promise<ChannelData | null> {
     // Логика: покупка от минимума + 1 шаг, продажа посередине
     let targetBuyPrice = minPrice + PRICE_STEP;
     const midPrice = (minPrice + maxPrice) / 2;
-    let targetSellPrice = midPrice; // Тейк-Профит чуть выше середины
+    let targetSellPrice = midPrice + PRICE_STEP; // Тейк-Профит чуть выше середины
 
     // Защита от Taker-исполнения: лимитка на покупку не должна быть на уровне или выше Ask
     if (targetBuyPrice >= bestAsk) {
@@ -161,6 +161,11 @@ async function tradeLoop() {
   console.log("=== Бот на базе MEXC SDK успешно перезапущен ===");
 
   while (true) {
+    const stop_ago = Date.now()-STOP_TIME
+    if(stop_ago < 5*60*1000) {
+      console.log("wait after stop", 5*60*1000-stop_ago)
+      continue
+    }
     const channel = await getChannelBounds();
     if (!channel || isNaN(channel.targetBuyPrice)) {
       await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -356,7 +361,7 @@ async function tradeLoop() {
             );
             await placeOrder(
               "SELL",
-              currentInstantPrice - PRICE_STEP,
+              currentInstantPrice * 0.8,
               finalWalletBalance,
             );
           } else {
@@ -368,6 +373,7 @@ async function tradeLoop() {
           inPosition = false;
           sellOrderId = null;
           entryPrice = 0;
+          STOP_TIME= Date.now()
         }
       } catch (tickerError: any) {
         console.error(
