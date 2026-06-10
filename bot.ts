@@ -12,7 +12,6 @@ if (!API_KEY || !SECRET_KEY) {
   );
   process.exit(1);
 }
-let STOP_TIME = 0
 // Инициализируем клиент SDK
 const client = new Spot(API_KEY, SECRET_KEY);
 
@@ -161,11 +160,6 @@ async function tradeLoop() {
   console.log("=== Бот на базе MEXC SDK успешно перезапущен ===");
 
   while (true) {
-    const stop_ago = Date.now()-STOP_TIME
-    if(stop_ago < 5*60*1000) {
-      console.log("wait after stop", 5*60*1000-stop_ago)
-      continue
-    }
     const channel = await getChannelBounds();
     if (!channel || isNaN(channel.targetBuyPrice)) {
       await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -359,11 +353,9 @@ async function tradeLoop() {
             console.log(
               `Экстренно продаем весь кошелек: ${finalWalletBalance} ${ASSET_NAME}`,
             );
-            await placeOrder(
-              "SELL",
-              currentInstantPrice * 0.8,
-              finalWalletBalance,
-            );
+            await client.newOrder(SYMBOL, "SELL", "MARKET", {
+      quantity: balance.toString(),
+    });
           } else {
             console.log(
               `Остаток кошелька слишком мелкий для стоп-лосса (~${estimatedValueUSDT.toFixed(2)} USDT). Оставляем как пыль.`,
@@ -373,7 +365,8 @@ async function tradeLoop() {
           inPosition = false;
           sellOrderId = null;
           entryPrice = 0;
-          STOP_TIME= Date.now()
+          console.log("⏳ Пауза 5 минут после стопа...");
+  await new Promise(resolve => setTimeout(resolve, 5 * 60 * 1000));
         }
       } catch (tickerError: any) {
         console.error(
