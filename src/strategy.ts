@@ -1,0 +1,54 @@
+import { client } from "./client";
+import { SYMBOL, PRICE_STEP } from "./config";
+
+export interface ChannelData {
+  lowerBound: number;
+  midPrice: number;
+  targetBuyPrice: number;
+  targetSellPrice: number;
+}
+
+export async function getChannelBounds(): Promise<ChannelData | null> {
+  try {
+    const endTime = Date.now();
+    const startTime = endTime - 30000; // последние 30 сек
+
+    const [tradesData, tickerData] = await Promise.all([
+      client.trades(SYMBOL, { limit: 100 }),
+      client.bookTicker(SYMBOL),
+    ]);
+
+    if (!tradesData?.length || !tickerData?.bidPrice || !tickerData?.askPrice)
+      return null;
+
+    const bestBid = parseFloat(tickerData.bidPrice);
+    const bestAsk = parseFloat(tickerData.askPrice);
+
+    const recentTrades = tradesData.filter(
+      (t: any) => t.time >= startTime && t.time <= endTime
+    );
+    const tradesToAnalyze = recentTrades.length ? recentTrades : [tradesData[tradesData.length - 1]];
+
+    let minPrice = parseFloat(tradesToAnalyze[0].price);
+    let maxPrice = minPrice;
+
+    for (const trade of tradesToAnalyze) {
+      const price = parseFloat(trade.price);
+      if (isNaN(price)) continue;
+      if (price < minPrice) minPrice = price;
+      if (price > maxPrice) maxPrice = price;
+    }
+
+    let targetBuyPrice = minPrice + PRICE_STEP;
+    const midPrice = (minPrice + maxPrice) / 2;
+    let targetSellPrice = midPrice + PRICE_STEP;
+
+    if (targetBuyPrice >= bestAsk) targetBuyPrice = bestBid;
+    if (targetSellPrice <= targetBuyPrice) targetSellPrice = targetBuyPrice + PRICE_STEP;
+
+    return { lowerBound: minPrice, midPrice, targetBuyPrice, targetSellPrice };
+  } catch (e: any) {
+    console.error("Ошибка расчета канала:", e.message || e);
+    return null;
+  }
+}
