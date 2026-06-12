@@ -15,4 +15,4 @@ if (!API_KEY || !SECRET_KEY) {
 export const SYMBOL = "PLBUSDT";
 export const QUANTITY = 6;
 export const PRICE_STEP = 0.0001;
-export const STOP_LOSS_PCT = 0.2;
+export const STOP_LOSS_PCT = 0.3;
