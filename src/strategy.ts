@@ -6,6 +6,7 @@ export interface ChannelData {
   midPrice: number;
   targetBuyPrice: number;
   targetSellPrice: number;
+  bestBid: number;
 }
 
 export async function getChannelBounds(): Promise<ChannelData | null> {
@@ -25,9 +26,11 @@ export async function getChannelBounds(): Promise<ChannelData | null> {
     const bestAsk = parseFloat(tickerData.askPrice);
 
     const recentTrades = tradesData.filter(
-      (t: any) => t.time >= startTime && t.time <= endTime
+      (t: any) => t.time >= startTime && t.time <= endTime,
     );
-    const tradesToAnalyze = recentTrades.length ? recentTrades : [tradesData[tradesData.length - 1]];
+    const tradesToAnalyze = recentTrades.length
+      ? recentTrades
+      : [tradesData[tradesData.length - 1]];
 
     let minPrice = parseFloat(tradesToAnalyze[0].price);
     let maxPrice = minPrice;
@@ -44,9 +47,16 @@ export async function getChannelBounds(): Promise<ChannelData | null> {
     let targetSellPrice = midPrice + PRICE_STEP;
 
     if (targetBuyPrice >= bestAsk) targetBuyPrice = bestBid;
-    if (targetSellPrice <= targetBuyPrice) targetSellPrice = targetBuyPrice + PRICE_STEP;
+    if (targetSellPrice <= targetBuyPrice)
+      targetSellPrice = targetBuyPrice + PRICE_STEP;
 
-    return { lowerBound: minPrice, midPrice, targetBuyPrice, targetSellPrice };
+    return {
+      lowerBound: minPrice,
+      midPrice,
+      targetBuyPrice,
+      targetSellPrice,
+      bestBid,
+    };
   } catch (e: any) {
     console.error("Ошибка расчета канала:", e.message || e);
     return null;

@@ -4,7 +4,7 @@ import { SYMBOL, PRICE_STEP } from "./config";
 export async function placeLimitOrder(
   side: "BUY" | "SELL",
   price: number,
-  quantity: number
+  quantity: number,
 ) {
   const decimals = PRICE_STEP.toString().split(".")[1]?.length || 0;
   const formattedPrice = price.toFixed(decimals);

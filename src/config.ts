@@ -7,7 +7,7 @@ export const SECRET_KEY = process.env.MEXC_SECRET_KEY || "";
 
 if (!API_KEY || !SECRET_KEY) {
   console.error(
-    "❌ Ошибка: Укажите ключи MEXC_API_KEY и MEXC_SECRET_KEY в файле .env"
+    "❌ Ошибка: Укажите ключи MEXC_API_KEY и MEXC_SECRET_KEY в файле .env",
   );
   process.exit(1);
 }
