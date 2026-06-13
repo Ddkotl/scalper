@@ -3,7 +3,7 @@ import { client } from "./client";
 export async function placeLimitOrder(
   side: "BUY" | "SELL",
   price: number,
-  quantity: number,
+  quantity: string,
   symbol: string,
   priceStep: number,
 ) {
@@ -13,7 +13,7 @@ export async function placeLimitOrder(
   console.log(`[Ордер] ${side} ${formattedPrice} ${quantity}`);
   try {
     const order = await client.newOrder(symbol, side, "LIMIT", {
-      quantity: quantity.toString(),
+      quantity: quantity,
       price: formattedPrice,
       timeInForce: "GTC",
     });

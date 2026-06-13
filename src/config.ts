@@ -15,7 +15,8 @@ if (!API_KEY || !SECRET_KEY) {
 // Интерфейс для индивидуальных настроек каждой монеты
 export interface CoinConfig {
   SYMBOL: string;
-  QUANTITY: number;
+  USDT_QUANTITY: number;
+  QTY_STEP: number;
   PRICE_STEP: number;
   STOP_LOSS_PCT: number;
   MIN_NOTIONAL: number;
@@ -29,7 +30,8 @@ export interface CoinConfig {
 export const COINS_CONFIG: CoinConfig[] = [
   {
     SYMBOL: "PLBUSDT",
-    QUANTITY: 6,
+    USDT_QUANTITY: 4,
+    QTY_STEP: 0.01,
     PRICE_STEP: 0.0001,
     STOP_LOSS_PCT: 0.3,
     MIN_NOTIONAL: 1.1,
@@ -37,20 +39,9 @@ export const COINS_CONFIG: CoinConfig[] = [
     CHANNEL_TIME: 30 * 1000,
     TRADE_INTERVAL_MS: 5000,
     INTERVAL_AFTER_STOPLOSS_MS: 10 * 60 * 1000,
-    ORDER_TIMEOUT_MS: 3 * 60 * 1000,
+    ORDER_TIMEOUT_MS: 2 * 60 * 1000,
   },
-  // {
-  //   SYMBOL: "BTCUSDT",
-  //   QUANTITY: 0.0001,
-  //   PRICE_STEP: 0.01,
-  //   STOP_LOSS_PCT: 0.5,
-  //   MIN_NOTIONAL: 5.0,
-  //   ASSET_NAME: "BTC",
-  //   CHANNEL_TIME: 30 * 1000,
-  //   TRADE_INTERVAL_MS: 5000,
-  //   INTERVAL_AFTER_STOPLOSS_MS: 10 * 60 * 1000,
-  //   ORDER_TIMEOUT_MS: 3 * 60 * 1000,
-  // },
+
 ];
 
 //corn nibi

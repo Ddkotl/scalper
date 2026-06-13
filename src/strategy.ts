@@ -1,67 +1,134 @@
-import { client } from "./client";
+import type { CoinConfig } from "./config";
+import { getChannelBounds } from "./get_chanel_bounds";
+import {
+  cancelOrder,
+  getOpenOrders,
+  placeLimitOrder,
+  placeMarketSell,
+} from "./orders";
+import { sleep } from "./utils";
+import { getAssetBalance } from "./wallet";
 
-export interface ChannelData {
-  lowerBound: number;
-  midPrice: number;
-  targetBuyPrice: number;
-  targetSellPrice: number;
-  bestBid: number;
-}
+export async function tradeLoop(config: CoinConfig) {
+  const {
+    SYMBOL,
+    USDT_QUANTITY,
+    QTY_STEP,
+    PRICE_STEP,
+    STOP_LOSS_PCT,
+    MIN_NOTIONAL,
+    ASSET_NAME,
+    CHANNEL_TIME,
+    INTERVAL_AFTER_STOPLOSS_MS,
+    ORDER_TIMEOUT_MS,
+    TRADE_INTERVAL_MS,
+  } = config;
 
-export async function getChannelBounds(
-  symbol: string,
-  priceStep: number,
-  chanellTime: number,
-): Promise<ChannelData | null> {
-  try {
-    const endTime = Date.now();
-    const startTime = endTime - chanellTime;
+  console.log(`🚀 Робот запущен для пары ${SYMBOL} в Stateless-режиме.`);
 
-    const [tradesData, tickerData] = await Promise.all([
-      client.trades(symbol, { limit: 100 }),
-      client.bookTicker(symbol),
-    ]);
+  while (true) {
+    try {
+      // ==========================================
+      // 1. СБОР СВЕЖИХ ДАННЫХ С СЕРВЕРА
+      // ==========================================
+      const channel = await getChannelBounds(SYMBOL, PRICE_STEP, CHANNEL_TIME);
+      const { currentBuyOrder, currentSellOrder } = await getOpenOrders(SYMBOL);
+      const { coinBalance, usdtBalance } = await getAssetBalance(ASSET_NAME);
 
-    if (!tradesData?.length || !tickerData?.bidPrice || !tickerData?.askPrice)
-      return null;
+      if (!channel || coinBalance === null || usdtBalance === null) {
+        console.log(
+          `⚠️ [${SYMBOL}] Не удалось собрать все данные с биржи. Пропускаем тик...`,
+        );
+        await sleep(TRADE_INTERVAL_MS);
+        continue;
+      }
+      const currentPrice = channel.bestBid;
+      const coinValueInUsdt = coinBalance * currentPrice;
 
-    const bestBid = parseFloat(tickerData.bidPrice);
-    const bestAsk = parseFloat(tickerData.askPrice);
+      // ==========================================
+      // 2. АНАЛИЗ СОСТОЯНИЯ И ПРИНЯТИЕ РЕШЕНИЙ
+      // ==========================================
+      if (currentBuyOrder) {
+        console.log(currentBuyOrder);
+        const buyAgeMinutes = Date.now() - currentBuyOrder.time;
+        if (buyAgeMinutes >= ORDER_TIMEOUT_MS) {
+          console.log(
+            `⏰ [${SYMBOL}] Ордер BUY висит больше 3 минут без полного налива. Отменяем.`,
+          );
+          await cancelOrder(currentBuyOrder.orderId, SYMBOL);
+          continue;
+        }
+      }
+  
+      if (currentSellOrder) {
+        const tpAgeMinutes = Date.now() - currentSellOrder.time;
+        if (tpAgeMinutes >= ORDER_TIMEOUT_MS) {
+          console.log(
+            `⏰ [${SYMBOL}] ТР висит больше 3 минут. Отменяем для перестановки по новому каналу.`,
+          );
+          await cancelOrder(currentSellOrder.orderId, SYMBOL);
+          continue;
+        }
+      }
+      if (currentSellOrder) {
+        const stopPrice = currentSellOrder.price * (1 - STOP_LOSS_PCT / 100);
+        if (currentPrice <= stopPrice) {
+          console.log(
+            `🚨 [${SYMBOL}] СТОП-ЛОСС! Цена ${currentPrice} <= ${stopPrice}. Экстренно выходим по рынку.`,
+          );
+          await cancelOrder(currentSellOrder.orderId, SYMBOL);
+          await placeMarketSell(coinBalance, SYMBOL);
+          console.log(`😴 [${SYMBOL}] Пауза после стоп-лосса.`);
+          await sleep(INTERVAL_AFTER_STOPLOSS_MS);
+          continue;
+        }
+      }
+      if (coinValueInUsdt >= MIN_NOTIONAL && !currentSellOrder) {
+        const sellOrder = await placeLimitOrder(
+          "SELL",
+          channel.targetSellPrice,
+          coinBalance.toString(),
+          SYMBOL,
+          PRICE_STEP,
+        );
+        if (sellOrder?.orderId) {
+          console.log(
+            `💰 [${SYMBOL}] Выставлен Тейк-Профит на ${coinBalance} ${ASSET_NAME} по цене ${channel.targetSellPrice}`,
+          );
+        }
+      }
 
-    const recentTrades = tradesData.filter(
-      (t: any) => t.time >= startTime && t.time <= endTime,
-    );
-    const tradesToAnalyze = recentTrades.length
-      ? recentTrades
-      : [tradesData[tradesData.length - 1]];
-
-    let minPrice = parseFloat(tradesToAnalyze[0].price);
-    let maxPrice = minPrice;
-
-    for (const trade of tradesToAnalyze) {
-      const price = parseFloat(trade.price);
-      if (isNaN(price)) continue;
-      if (price < minPrice) minPrice = price;
-      if (price > maxPrice) maxPrice = price;
+      if (
+        coinValueInUsdt < MIN_NOTIONAL &&
+        !currentBuyOrder &&
+        !currentSellOrder
+      ) {
+        if (usdtBalance >= USDT_QUANTITY && USDT_QUANTITY >= MIN_NOTIONAL) {
+          const coinQty = USDT_QUANTITY / channel.targetBuyPrice;
+          const decimals_qty = QTY_STEP.toString().split(".")[1]?.length || 0;
+          const formatedQty = coinQty.toFixed(decimals_qty);
+          const order = await placeLimitOrder(
+            "BUY",
+            channel.targetBuyPrice,
+            formatedQty,
+            SYMBOL,
+            PRICE_STEP,
+          );
+          if (order?.orderId) {
+            console.log(
+              `🛒 [${SYMBOL}] Выставили новый ордер BUY по цене ${channel.targetBuyPrice}`,
+            );
+          }
+        } else {
+          console.log(
+            `❌ [${SYMBOL}] Недостаточно USDT для выставления ордера на покупку.`,
+          );
+        }
+      }
+    } catch (error) {
+      console.error(`💥 Критическая ошибка в цикле тика для ${SYMBOL}:`, error);
     }
 
-    let targetBuyPrice = minPrice + priceStep;
-    const midPrice = (minPrice + maxPrice) / 2;
-    let targetSellPrice = midPrice + priceStep;
-
-    if (targetBuyPrice >= bestAsk) targetBuyPrice = bestBid;
-    if (targetSellPrice <= targetBuyPrice)
-      targetSellPrice = targetBuyPrice + priceStep;
-
-    return {
-      lowerBound: minPrice,
-      midPrice,
-      targetBuyPrice,
-      targetSellPrice,
-      bestBid,
-    };
-  } catch (e: any) {
-    console.error("Ошибка расчета канала:", e.message || e);
-    return null;
+    await sleep(TRADE_INTERVAL_MS);
   }
 }
