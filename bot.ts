@@ -15,8 +15,9 @@ import {
   INTERVAL_AFTER_STOPLOSS_MS,
   ASSET_NAME,
   ORDER_TIMEOUT_MS,
+  CHANNEL_TIME,
+  PRICE_STEP,
 } from "./src/config";
-import { client } from "./src/client";
 import { sleep } from "./src/utils";
 
 export async function tradeLoop() {
@@ -27,7 +28,7 @@ export async function tradeLoop() {
       // ==========================================
       // 1. СБОР СВЕЖИХ ДАННЫХ С СЕРВЕРА (Каждый тик заново)
       // ==========================================
-      const channel = await getChannelBounds();
+      const channel = await getChannelBounds(SYMBOL, PRICE_STEP, CHANNEL_TIME); // Канал за последние 5 минут
       const { currentBuyOrder, currentSellOrder } = await getOpenOrders(SYMBOL); // Получаем все активные ордера по паре
       const { coinBalance, usdtBalance } = await getAssetBalance(ASSET_NAME);
 

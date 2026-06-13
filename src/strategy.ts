@@ -9,14 +9,18 @@ export interface ChannelData {
   bestBid: number;
 }
 
-export async function getChannelBounds(): Promise<ChannelData | null> {
+export async function getChannelBounds(
+  symbol: string,
+  priceStep: number,
+  chanellTime: number,
+): Promise<ChannelData | null> {
   try {
     const endTime = Date.now();
-    const startTime = endTime - 30000; // последние 30 сек
+    const startTime = endTime - chanellTime;
 
     const [tradesData, tickerData] = await Promise.all([
-      client.trades(SYMBOL, { limit: 100 }),
-      client.bookTicker(SYMBOL),
+      client.trades(symbol, { limit: 100 }),
+      client.bookTicker(symbol),
     ]);
 
     if (!tradesData?.length || !tickerData?.bidPrice || !tickerData?.askPrice)
@@ -42,13 +46,13 @@ export async function getChannelBounds(): Promise<ChannelData | null> {
       if (price > maxPrice) maxPrice = price;
     }
 
-    let targetBuyPrice = minPrice + PRICE_STEP;
+    let targetBuyPrice = minPrice + priceStep;
     const midPrice = (minPrice + maxPrice) / 2;
-    let targetSellPrice = midPrice + PRICE_STEP;
+    let targetSellPrice = midPrice + priceStep;
 
     if (targetBuyPrice >= bestAsk) targetBuyPrice = bestBid;
     if (targetSellPrice <= targetBuyPrice)
-      targetSellPrice = targetBuyPrice + PRICE_STEP;
+      targetSellPrice = targetBuyPrice + priceStep;
 
     return {
       lowerBound: minPrice,
