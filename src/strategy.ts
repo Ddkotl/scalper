@@ -59,7 +59,7 @@ export async function tradeLoop(config: CoinConfig) {
           continue;
         }
       }
-  
+
       if (currentSellOrder) {
         const tpAgeMinutes = Date.now() - currentSellOrder.time;
         if (tpAgeMinutes >= ORDER_TIMEOUT_MS) {
@@ -98,33 +98,24 @@ export async function tradeLoop(config: CoinConfig) {
         }
       }
 
-      if (
-        coinValueInUsdt < MIN_NOTIONAL &&
-        !currentBuyOrder &&
-        !currentSellOrder
-      ) {
-        if (usdtBalance >= USDT_QUANTITY && USDT_QUANTITY >= MIN_NOTIONAL) {
-          const coinQty = USDT_QUANTITY / channel.targetBuyPrice;
-          const decimals_qty = QTY_STEP.toString().split(".")[1]?.length || 0;
-          const formatedQty = coinQty.toFixed(decimals_qty);
-          const order = await placeLimitOrder(
-            "BUY",
-            channel.targetBuyPrice,
-            formatedQty,
-            SYMBOL,
-            PRICE_STEP,
-          );
-          if (order?.orderId) {
-            console.log(
-              `🛒 [${SYMBOL}] Выставили новый ордер BUY по цене ${channel.targetBuyPrice}`,
-            );
-          }
-        } else {
+      if (!currentBuyOrder && usdtBalance >= MIN_NOTIONAL) {
+        const usdt_to_trade = Math.min(usdtBalance, USDT_QUANTITY);
+        const coinQty = (usdt_to_trade * 0.99) / channel.targetBuyPrice;
+        const decimals_qty = QTY_STEP.toString().split(".")[1]?.length || 0;
+        const formatedQty = coinQty.toFixed(decimals_qty);
+        const order = await placeLimitOrder(
+          "BUY",
+          channel.targetBuyPrice,
+          formatedQty,
+          SYMBOL,
+          PRICE_STEP,
+        );
+        if (order?.orderId) {
           console.log(
-            `❌ [${SYMBOL}] Недостаточно USDT для выставления ордера на покупку.`,
+            `🛒 [${SYMBOL}] Выставили новый ордер BUY по цене ${channel.targetBuyPrice}`,
           );
         }
-      }
+      } 
     } catch (error) {
       console.error(`💥 Критическая ошибка в цикле тика для ${SYMBOL}:`, error);
     }
