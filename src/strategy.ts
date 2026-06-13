@@ -49,7 +49,6 @@ export async function tradeLoop(config: CoinConfig) {
       // 2. АНАЛИЗ СОСТОЯНИЯ И ПРИНЯТИЕ РЕШЕНИЙ
       // ==========================================
       if (currentBuyOrder) {
-        console.log(currentBuyOrder);
         const buyAgeMinutes = Date.now() - currentBuyOrder.time;
         if (buyAgeMinutes >= ORDER_TIMEOUT_MS) {
           console.log(
