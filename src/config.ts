@@ -30,7 +30,7 @@ export interface CoinConfig {
 export const COINS_CONFIG: CoinConfig[] = [
   {
     SYMBOL: "PLBUSDT",
-    USDT_QUANTITY: 10,
+    USDT_QUANTITY: 50,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0001,
     STOP_LOSS_PCT: 0.3,
