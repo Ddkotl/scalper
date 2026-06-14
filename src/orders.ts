@@ -44,10 +44,10 @@ export async function getOpenOrders(symbol: string) {
   try {
     const openOrders = await client.openOrders(symbol);
     // Ищем ордера на бирже по факту их наличия
-    const currentBuyOrder = openOrders.find(
+    const currentBuyOrder = openOrders.filter(
       (o: { side: string }) => o.side === "BUY",
     );
-    const currentSellOrder = openOrders.find(
+    const currentSellOrder = openOrders.filter(
       (o: { side: string }) => o.side === "SELL",
     );
     return { currentBuyOrder, currentSellOrder };

@@ -6,6 +6,9 @@ export interface ChannelData {
   targetBuyPrice: number;
   targetSellPrice: number;
   bestBid: number;
+  bestAsk: number;
+  minPrice: number;
+  maxPrice: number;
 }
 
 export async function getChannelBounds(
@@ -44,10 +47,16 @@ export async function getChannelBounds(
       if (price < minPrice) minPrice = price;
       if (price > maxPrice) maxPrice = price;
     }
-
+    const delta = maxPrice - minPrice;
     let targetBuyPrice = minPrice + priceStep;
     const midPrice = (minPrice + maxPrice) / 2;
     let targetSellPrice = midPrice + priceStep;
+    if (delta > priceStep * 4) {
+      targetSellPrice = midPrice + priceStep * 2;
+    }
+    if (delta > priceStep * 7) {
+      targetSellPrice = midPrice + priceStep * 3;
+    }
 
     if (targetBuyPrice >= bestAsk) targetBuyPrice = bestBid;
     if (targetSellPrice <= targetBuyPrice)
@@ -59,6 +68,9 @@ export async function getChannelBounds(
       targetBuyPrice,
       targetSellPrice,
       bestBid,
+      bestAsk,
+      minPrice,
+      maxPrice,
     };
   } catch (e: any) {
     console.error("Ошибка расчета канала:", e.message || e);
