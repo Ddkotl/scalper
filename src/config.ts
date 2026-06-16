@@ -21,22 +21,32 @@ export interface CoinConfig {
   STOP_LOSS_PCT: number;
   MIN_NOTIONAL: number;
   ASSET_NAME: string;
-  CHANNEL_TIME: number;
   TRADE_INTERVAL_MS: number;
   INTERVAL_AFTER_STOPLOSS_MS: number;
   ORDER_TIMEOUT_MS: number;
 }
 
 export const COINS_CONFIG: CoinConfig[] = [
+  // {
+  //   SYMBOL: "PLBUSDT",
+  //   USDT_QUANTITY: 20,
+  //   QTY_STEP: 0.01,
+  //   PRICE_STEP: 0.0001,
+  //   STOP_LOSS_PCT: 1,
+  //   MIN_NOTIONAL: 1.1,
+  //   ASSET_NAME: "PLB",
+  //   TRADE_INTERVAL_MS: 3000,
+  //   INTERVAL_AFTER_STOPLOSS_MS: 30 * 60 * 1000,
+  //   ORDER_TIMEOUT_MS: 3 * 60 * 1000,
+  // },
   {
-    SYMBOL: "PLBUSDT",
+    SYMBOL: "CTPUSDT",
     USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
-    PRICE_STEP: 0.0001,
-    STOP_LOSS_PCT: 1,
+    PRICE_STEP: 0.0000001,
+    STOP_LOSS_PCT: 2,
     MIN_NOTIONAL: 1.1,
-    ASSET_NAME: "PLB",
-    CHANNEL_TIME: 60 * 1000,
+    ASSET_NAME: "CTP",
     TRADE_INTERVAL_MS: 3000,
     INTERVAL_AFTER_STOPLOSS_MS: 30 * 60 * 1000,
     ORDER_TIMEOUT_MS: 3 * 60 * 1000,

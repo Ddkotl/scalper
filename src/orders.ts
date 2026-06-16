@@ -7,8 +7,20 @@ export async function placeLimitOrder(
   symbol: string,
   priceStep: number,
 ) {
-  const decimals = priceStep.toString().split(".")[1]?.length || 0;
+  // console.log(
+  //   `[Ордер] ${side} ${price} ${quantity} ${symbol} ${priceStep} ${priceStep.toString()}`,
+  // );
+  const decimals = priceStep < 1 ? Math.round(-Math.log10(priceStep)) : 0;
+
   const formattedPrice = price.toFixed(decimals);
+
+  // Страховка от отправки нулевой или отрицательной цены
+  if (parseFloat(formattedPrice) <= 0) {
+    console.error(
+      `❌ Критическая ошибка: Цена округлилась до ${formattedPrice} (исходная: ${price}). Ордер отклонен.`,
+    );
+    return null;
+  }
 
   console.log(`[Ордер] ${side} ${formattedPrice} ${quantity}`);
   try {

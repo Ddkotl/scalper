@@ -119,6 +119,9 @@ export async function tradeLoop(config: CoinConfig) {
         if (targetBuyPrice > maxAllowedBuyPrice) {
           targetBuyPrice = maxAllowedBuyPrice;
         }
+        console.log(
+          `📈 [${SYMBOL}] Выставляем ордер BUY на ${formatedQty} ${ASSET_NAME} по цене ${targetBuyPrice}`,
+        );
         const order = await placeLimitOrder(
           "BUY",
           targetBuyPrice,
