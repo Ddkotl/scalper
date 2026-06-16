@@ -33,7 +33,7 @@ export const COINS_CONFIG: CoinConfig[] = [
     USDT_QUANTITY: 30,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0001,
-    STOP_LOSS_PCT: 2,
+    STOP_LOSS_PCT: 1,
     MIN_NOTIONAL: 1.1,
     ASSET_NAME: "PLB",
     CHANNEL_TIME: 60 * 1000,
