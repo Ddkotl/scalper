@@ -30,7 +30,7 @@ export async function tradeLoop(config: CoinConfig) {
       // ==========================================
       // 1. СБОР СВЕЖИХ ДАННЫХ С СЕРВЕРА
       // ==========================================
-      const market = await analyzeMarket(SYMBOL, 5);
+      const market = await analyzeMarket(SYMBOL, 15);
 
       if (!market) continue;
 
