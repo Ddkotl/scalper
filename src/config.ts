@@ -27,30 +27,30 @@ export interface CoinConfig {
 }
 
 export const COINS_CONFIG: CoinConfig[] = [
-  // {
-  //   SYMBOL: "PLBUSDT",
-  //   USDT_QUANTITY: 20,
-  //   QTY_STEP: 0.01,
-  //   PRICE_STEP: 0.0001,
-  //   STOP_LOSS_PCT: 1,
-  //   MIN_NOTIONAL: 1.1,
-  //   ASSET_NAME: "PLB",
-  //   TRADE_INTERVAL_MS: 3000,
-  //   INTERVAL_AFTER_STOPLOSS_MS: 30 * 60 * 1000,
-  //   ORDER_TIMEOUT_MS: 3 * 60 * 1000,
-  // },
   {
-    SYMBOL: "CTPUSDT",
-    USDT_QUANTITY: 20,
-    QTY_STEP: 0.01,
-    PRICE_STEP: 0.0000001,
-    STOP_LOSS_PCT: 2,
-    MIN_NOTIONAL: 1.1,
-    ASSET_NAME: "CTP",
+   SYMBOL: "PLBUSDT",
+   USDT_QUANTITY: 20,
+   QTY_STEP: 0.01,
+   PRICE_STEP: 0.0001,
+  STOP_LOSS_PCT: 1,
+     MIN_NOTIONAL: 1.1,
+   ASSET_NAME: "PLB",
     TRADE_INTERVAL_MS: 3000,
-    INTERVAL_AFTER_STOPLOSS_MS: 30 * 60 * 1000,
+  INTERVAL_AFTER_STOPLOSS_MS: 30 * 60 * 1000,
     ORDER_TIMEOUT_MS: 3 * 60 * 1000,
-  },
+},
+ // {
+  //  SYMBOL: "CTPUSDT",
+//    USDT_QUANTITY: 20,
+//    QTY_STEP: 0.01,
+  //  PRICE_STEP: 0.0000001,
+//    STOP_LOSS_PCT: 2,
+  //_ MIN_NOTIONAL: 1.1,
+//    ASSET_NAME: "CTP",
+//    TRADE_INTERVAL_MS: 3000,
+  //  INTERVAL_AFTER_STOPLOSS_MS: 30 * 60 * 1000,
+  //  ORDER_TIMEOUT_MS: 3 * 60 * 1000,
+//  },
 ];
 
 //corn nibi
