@@ -34,28 +34,28 @@ export interface CoinConfig {
 }
 
 export const COINS_CONFIG: CoinConfig[] = [
-  // {
-  //   SYMBOL: "PLBUSDT",
-  //  USDT_QUANTITY: 20,
-  //  QTY_STEP: 0.01,
-  // PRICE_STEP: 0.0001,
-  // STOP_LOSS_PCT: 2,
-  // SELL_RANGE: 0.7,
-  //   BUY_RANGE: 0.1,
-  //   MIN_NOTIONAL: 1.1,
-  // ASSET_NAME: "PLB",
-  //  TRADE_INTERVAL_MS: 3000,
-  // INTERVAL_AFTER_STOPLOSS_MS: 2* 60 * 60 * 1000,
-  //   ORDER_TIMEOUT_MS: 5 * 60 * 1000,
+  {
+    SYMBOL: "PLBUSDT",
+   USDT_QUANTITY: 10,
+   QTY_STEP: 0.01,
+  PRICE_STEP: 0.0001,
+  STOP_LOSS_PCT: 2,
+  SELL_RANGE: 0.7,
+    BUY_RANGE: 0.1,
+    MIN_NOTIONAL: 1.1,
+  ASSET_NAME: "PLB",
+   TRADE_INTERVAL_MS: 3000,
+  INTERVAL_AFTER_STOPLOSS_MS: 2* 60 * 60 * 1000,
+    ORDER_TIMEOUT_MS: 5 * 60 * 1000,
 
-  // ANALIZE_INTERVAL_MIN: 15,
-  // MIN_RANGE_PCT: 0.05,
-  // MAX_RANGE_PCT: 1.0,
-  // MAX_TREND_FACTOR: 0.4,
-  //},
+  ANALIZE_INTERVAL_MIN: 15,
+  MIN_RANGE_PCT: 0.05,
+  MAX_RANGE_PCT: 1.0,
+  MAX_TREND_FACTOR: 0.4,
+  },
   {
     SYMBOL: "CTPUSDT",
-    USDT_QUANTITY: 20,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 2,
@@ -72,6 +72,25 @@ export const COINS_CONFIG: CoinConfig[] = [
     MAX_RANGE_PCT: 1.0,
     MAX_TREND_FACTOR: 0.4,
   },
+  //  {
+  //   SYMBOL: "NXTUSDT",
+  //   USDT_QUANTITY: 20,
+  //   QTY_STEP: 0.01,
+  //   PRICE_STEP: 0.00001,
+  //   STOP_LOSS_PCT: 2,
+  //   SELL_RANGE: 0.9,
+  //   BUY_RANGE: 0.1,
+  //   MIN_NOTIONAL: 1.1,
+  //   ASSET_NAME: "NXT",
+  //   TRADE_INTERVAL_MS: 3000,
+  //   INTERVAL_AFTER_STOPLOSS_MS: 2 * 60 * 60 * 1000,
+  //   ORDER_TIMEOUT_MS: 5 * 60 * 1000,
+
+  //   ANALIZE_INTERVAL_MIN: 15,
+  //   MIN_RANGE_PCT: 0.05,
+  //   MAX_RANGE_PCT: 1.0,
+  //   MAX_TREND_FACTOR: 0.4,
+  // },
 ];
 
-//corn nibi
+//SEDAUSDT

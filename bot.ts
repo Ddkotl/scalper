@@ -7,7 +7,7 @@ async function startMultiBot() {
 
   // Запуск независимого цикла для каждой монеты параллельно
   const tradingPromises = COINS_CONFIG.map(async (coinConfig, index) => {
-    await sleep(index * 5000);
+    await sleep(index * 4444);
     return tradeLoop(coinConfig);
   });
 
