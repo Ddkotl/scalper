@@ -50,8 +50,8 @@ export const COINS_CONFIG: CoinConfig[] = [
 
   ANALIZE_INTERVAL_MIN: 15,
   MIN_RANGE_PCT: 0.05,
-  MAX_RANGE_PCT: 1.0,
-  MAX_TREND_FACTOR: 0.4,
+  MAX_RANGE_PCT: 1.2,
+  MAX_TREND_FACTOR: 0.6,
   },
   {
     SYMBOL: "CTPUSDT",
