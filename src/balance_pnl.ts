@@ -71,10 +71,10 @@ async function calculateStats() {
       trades = await client.accountTradeList(symbol, {
         limit: 1000,
       });
+     
     } catch {
       continue;
     }
-
     if (!Array.isArray(trades) || trades.length === 0) continue;
 
     result[symbol] ??= {
@@ -104,6 +104,9 @@ async function calculateStats() {
         result[symbol].pnl += value;
       }
     }
+    result[symbol].pnl += coinPriseUSDT;
+    result[symbol].sellVolume += coinPriseUSDT;
+    result[symbol].sellCount += 1;
   }
 
   const rows = Object.values(result).map((s) => {
@@ -126,7 +129,6 @@ async function calculateStats() {
   });
 
   console.table(rows);
-
 }
 
 calculateStats();

@@ -57,7 +57,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "CORNUSDT",
-    USDT_QUANTITY: 2,
+    USDT_QUANTITY: 4,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 2,
@@ -78,7 +78,7 @@ export const COINS_CONFIG: CoinConfig[] = [
 
   {
     SYMBOL: "NXTUSDT",
-    USDT_QUANTITY: 2,
+    USDT_QUANTITY: 4,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
@@ -98,4 +98,5 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
 ];
 
-//SEDAUSDT
+//SEDAUSDT спред
+//aix отскок
