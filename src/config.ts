@@ -37,7 +37,7 @@ export interface CoinConfig {
 export const COINS_CONFIG: CoinConfig[] = [
   {
     SYMBOL: "CTPUSDT",
-    USDT_QUANTITY: 10,
+    USDT_QUANTITY: 5,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 2,
@@ -51,13 +51,13 @@ export const COINS_CONFIG: CoinConfig[] = [
 
     ANALIZE_INTERVAL_MIN: 15,
     LOOCAL_LOOKBACK: 1,
-    MIN_RANGE_PCT: 0.05,
+    MIN_RANGE_PCT: 0,
     MAX_RANGE_PCT: 1.0,
-    MAX_TREND_FACTOR: 0.4,
+    MAX_TREND_FACTOR: 0.3,
   },
     {
     SYMBOL: "PLBUSDT",
-    USDT_QUANTITY: 4,
+    USDT_QUANTITY: 5,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0001,
     STOP_LOSS_PCT: 2,
@@ -71,13 +71,13 @@ export const COINS_CONFIG: CoinConfig[] = [
 
     ANALIZE_INTERVAL_MIN: 30,
     LOOCAL_LOOKBACK: 15,
-    MIN_RANGE_PCT: 0.05,
+    MIN_RANGE_PCT: 0,
     MAX_RANGE_PCT: 1.2,
     MAX_TREND_FACTOR: 0.5,
   },
   {
     SYMBOL: "CORNUSDT",
-    USDT_QUANTITY: 6,
+    USDT_QUANTITY: 8,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 2,
@@ -91,14 +91,14 @@ export const COINS_CONFIG: CoinConfig[] = [
 
     ANALIZE_INTERVAL_MIN: 15,
     LOOCAL_LOOKBACK: 1,
-    MIN_RANGE_PCT: 0.05,
+    MIN_RANGE_PCT: 0,
     MAX_RANGE_PCT: 1.2,
     MAX_TREND_FACTOR: 0.5,
   },
 
   {
     SYMBOL: "NXTUSDT",
-    USDT_QUANTITY: 4,
+    USDT_QUANTITY: 5,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
@@ -112,7 +112,7 @@ export const COINS_CONFIG: CoinConfig[] = [
 
     ANALIZE_INTERVAL_MIN: 30,
     LOOCAL_LOOKBACK: 15,
-    MIN_RANGE_PCT: 0.05,
+    MIN_RANGE_PCT: 0,
     MAX_RANGE_PCT: 5.0,
     MAX_TREND_FACTOR: 0.6,
   },
