@@ -47,7 +47,6 @@ export async function tradeLoop(config: CoinConfig) {
       );
 
       if (!market) continue;
-
       const { currentBuyOrder, currentSellOrder } = await getOpenOrders(SYMBOL);
       const { coinBalance, usdtBalance } = await getAssetBalance(ASSET_NAME);
 

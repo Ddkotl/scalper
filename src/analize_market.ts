@@ -84,7 +84,6 @@ export async function analyzeMarket(
     const driftPct =
       anchor > 0 ? (Math.abs(currentPrice - anchor) / anchor) * 100 : 0;
     const trendFactor = rangePct > 0 ? driftPct / rangePct : 0;
-
     // Режим рынка
     const isSideways =
       rangePct > minRangePct &&
