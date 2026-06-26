@@ -37,7 +37,7 @@ export interface CoinConfig {
 export const COINS_CONFIG: CoinConfig[] = [
   {
     SYMBOL: "CTPUSDT",
-    USDT_QUANTITY: 5,
+    USDT_QUANTITY: 3,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 2,
@@ -57,7 +57,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
     {
     SYMBOL: "PLBUSDT",
-    USDT_QUANTITY: 5,
+    USDT_QUANTITY: 3,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0001,
     STOP_LOSS_PCT: 2,
@@ -77,7 +77,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "CORNUSDT",
-    USDT_QUANTITY: 8,
+    USDT_QUANTITY: 3,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 2,
@@ -98,7 +98,7 @@ export const COINS_CONFIG: CoinConfig[] = [
 
   {
     SYMBOL: "NXTUSDT",
-    USDT_QUANTITY: 5,
+    USDT_QUANTITY: 3,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
@@ -118,12 +118,12 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "SLIMEXUSDT",
-    USDT_QUANTITY: 2,
+    USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.000001,
     STOP_LOSS_PCT: 3,
     SELL_RANGE: 0.8,
-    BUY_RANGE: 0.1,
+    BUY_RANGE: 0.2,
     MIN_NOTIONAL: 1.1,
     ASSET_NAME: "SLIMEX",
     TRADE_INTERVAL_MS: 3000,
