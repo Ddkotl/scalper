@@ -133,11 +133,11 @@ export const COINS_CONFIG: CoinConfig[] = [
     LOOCAL_LOOKBACK: 2,
     MIN_RANGE_PCT: 0,
     MAX_RANGE_PCT: 5.0,
-    MAX_TREND_FACTOR: 0.7,
+    MAX_TREND_FACTOR: 0.5,
   },
     {
     SYMBOL: "FORUUSDT",
-    USDT_QUANTITY: 20,
+    USDT_QUANTITY: 50,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
@@ -170,10 +170,10 @@ export const COINS_CONFIG: CoinConfig[] = [
     ORDER_TIMEOUT_MS: 3 * 60 * 1000,
 
     ANALIZE_INTERVAL_MIN: 15,
-    LOOCAL_LOOKBACK: 15,
+    LOOCAL_LOOKBACK: 2,
     MIN_RANGE_PCT: 0,
-    MAX_RANGE_PCT: 7.0,
-    MAX_TREND_FACTOR: 0.7,
+    MAX_RANGE_PCT: 5.0,
+    MAX_TREND_FACTOR: 0.2,
   },
   //       {
   //   SYMBOL: "KAZARUSDT",
