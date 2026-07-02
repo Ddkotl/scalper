@@ -90,7 +90,7 @@ export const COINS_CONFIG: CoinConfig[] = [
     ORDER_TIMEOUT_MS: 2 * 60 * 1000,
 
     ANALIZE_INTERVAL_MIN: 15,
-    LOOCAL_LOOKBACK: 3,
+    LOOCAL_LOOKBACK: 10,
     MIN_RANGE_PCT: 0,
     MAX_RANGE_PCT: 2,
     MAX_TREND_FACTOR: 0.6,
@@ -137,7 +137,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
     {
     SYMBOL: "FORUUSDT",
-    USDT_QUANTITY: 50,
+    USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
