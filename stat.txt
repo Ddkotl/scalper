@@ -1,16 +1,15 @@
-◇ injected env (2) from .env // tip: ⌘ multiple files { path: ['.env.local', '.env'] }
+◇ injected env (2) from .env // tip: ⌁ auth for agents [www.vestauth.com]
 ┌─────────┬──────────────────┬─────────┬────────┐
 │ (index) │ symbol           │ pnl     │ trades │
 ├─────────┼──────────────────┼─────────┼────────┤
-│ 0       │ 'SLIMEXUSDT'     │ '0.04'  │ 177    │
-│ 1       │ 'SEDAUSDT'       │ '0.06'  │ 415    │
-│ 2       │ 'PLBUSDT'        │ '-1.53' │ 2288   │
-│ 3       │ 'CORNUSDT'       │ '2.29'  │ 2640   │
-│ 4       │ 'NXTUSDT'        │ '0.60'  │ 2174   │
-│ 5       │ 'FORUUSDT'       │ '3.26'  │ 916    │
-│ 6       │ 'AIXDROPUSDT'    │ '1.71'  │ 1754   │
-│ 7       │ 'SINGULARRYUSDT' │ '0.21'  │ 95     │
+│ 0       │ 'SLIMEXUSDT'     │ '-0.24' │ 11     │
+│ 1       │ 'SEDAUSDT'       │ '0.23'  │ 464    │
+│ 2       │ 'CORNUSDT'       │ '2.36'  │ 3520   │
+│ 3       │ 'NXTUSDT'        │ '-0.04' │ 2209   │
+│ 4       │ 'FORUUSDT'       │ '1.96'  │ 950    │
+│ 5       │ 'AIXDROPUSDT'    │ '1.69'  │ 952    │
+│ 6       │ 'SINGULARRYUSDT' │ '-1.19' │ 314    │
 └─────────┴──────────────────┴─────────┴────────┘
 ----------------------------------------
-ОБЩИЙ PNL СЕССИИ (12ч): +6.63 USDT
+ОБЩИЙ PNL СЕССИИ (12ч): +4.77 USDT
 ----------------------------------------

@@ -35,7 +35,7 @@ export interface CoinConfig {
 }
 
 export const COINS_CONFIG: CoinConfig[] = [
-    {
+  {
     SYMBOL: "SLIMEXUSDT",
     USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
@@ -135,7 +135,7 @@ export const COINS_CONFIG: CoinConfig[] = [
     MAX_RANGE_PCT: 5.0,
     MAX_TREND_FACTOR: 0.5,
   },
-    {
+  {
     SYMBOL: "FORUUSDT",
     USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
@@ -155,7 +155,7 @@ export const COINS_CONFIG: CoinConfig[] = [
     MAX_RANGE_PCT: 5.0,
     MAX_TREND_FACTOR: 0.7,
   },
-      {
+  {
     SYMBOL: "AIXDROPUSDT",
     USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
@@ -175,29 +175,26 @@ export const COINS_CONFIG: CoinConfig[] = [
     MAX_RANGE_PCT: 5.0,
     MAX_TREND_FACTOR: 0.2,
   },
-        {
-    SYMBOL: "SINGULARRYUSDT",
-    USDT_QUANTITY: 20,
-    QTY_STEP: 0.01,
-    PRICE_STEP: 0.00001,
-    STOP_LOSS_PCT: 2,
-    SELL_RANGE: 0.6,
-    BUY_RANGE: 0.4,
-    MIN_NOTIONAL: 1.1,
-    ASSET_NAME: "SINGULARRY",
-    TRADE_INTERVAL_MS: 3000,
-    INTERVAL_AFTER_STOPLOSS_MS: 2 * 60 * 60 * 1000,
-    ORDER_TIMEOUT_MS: 3 * 60 * 1000,
+  //       {
+  //   SYMBOL: "SINGULARRYUSDT",
+  //   USDT_QUANTITY: 20,
+  //   QTY_STEP: 0.01,
+  //   PRICE_STEP: 0.00001,
+  //   STOP_LOSS_PCT: 2,
+  //   SELL_RANGE: 0.6,
+  //   BUY_RANGE: 0.4,
+  //   MIN_NOTIONAL: 1.1,
+  //   ASSET_NAME: "SINGULARRY",
+  //   TRADE_INTERVAL_MS: 3000,
+  //   INTERVAL_AFTER_STOPLOSS_MS: 2 * 60 * 60 * 1000,
+  //   ORDER_TIMEOUT_MS: 3 * 60 * 1000,
 
-    ANALIZE_INTERVAL_MIN: 15,
-    LOOCAL_LOOKBACK: 3,
-    MIN_RANGE_PCT: 0,
-    MAX_RANGE_PCT: 3,
-    MAX_TREND_FACTOR: 0.5,
-  }
-
-
-
+  //   ANALIZE_INTERVAL_MIN: 15,
+  //   LOOCAL_LOOKBACK: 3,
+  //   MIN_RANGE_PCT: 0,
+  //   MAX_RANGE_PCT: 3,
+  //   MAX_TREND_FACTOR: 0.5,
+  // }
 ];
 
 //SEDAUSDT спред
