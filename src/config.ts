@@ -57,7 +57,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "SEDAUSDT",
-    USDT_QUANTITY: 2,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 2,
@@ -77,7 +77,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
     {
     SYMBOL: "PLBUSDT",
-    USDT_QUANTITY: 2,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0001,
     STOP_LOSS_PCT: 2,
@@ -97,7 +97,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "CORNUSDT",
-    USDT_QUANTITY: 20,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 2,
@@ -157,10 +157,10 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "AIXDROPUSDT",
-    USDT_QUANTITY: 2,
+    USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00000001,
-    STOP_LOSS_PCT: 5,
+    STOP_LOSS_PCT: 4,
     SELL_RANGE: 0.6,
     BUY_RANGE: 0.1,
     MIN_NOTIONAL: 1.1,
@@ -172,7 +172,7 @@ export const COINS_CONFIG: CoinConfig[] = [
     ANALIZE_INTERVAL_MIN: 30,
     LOOCAL_LOOKBACK: 15,
     MIN_RANGE_PCT: 0,
-    MAX_RANGE_PCT: 5.0,
+    MAX_RANGE_PCT: 4.0,
     MAX_TREND_FACTOR: 0.2,
   },
   //       {
