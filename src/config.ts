@@ -101,13 +101,13 @@ export const COINS_CONFIG: CoinConfig[] = [
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 2,
-    SELL_RANGE: 0.7,
-    BUY_RANGE: 0.4,
+    SELL_RANGE: 0.6,
+    BUY_RANGE: 0.2,
     MIN_NOTIONAL: 1.1,
     ASSET_NAME: "CORN",
     TRADE_INTERVAL_MS: 3000,
     INTERVAL_AFTER_STOPLOSS_MS: 2 * 60 * 60 * 1000,
-    ORDER_TIMEOUT_MS: 2 * 60 * 1000,
+    ORDER_TIMEOUT_MS: 3 * 60 * 1000,
 
     ANALIZE_INTERVAL_MIN: 15,
     LOOCAL_LOOKBACK: 1,
@@ -177,7 +177,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "AIXUSDT",
-    USDT_QUANTITY: 5,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 2,
@@ -197,7 +197,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "HANDLUSDT",
-    USDT_QUANTITY: 5,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 2,
@@ -217,7 +217,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "ALEUSDT",
-    USDT_QUANTITY: 2,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0001,
     STOP_LOSS_PCT: 2,
@@ -237,7 +237,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
    {
     SYMBOL: "QFIUSDT",
-    USDT_QUANTITY: 2,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.001,
     STOP_LOSS_PCT: 2,
@@ -257,7 +257,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
    {
     SYMBOL: "OMIUSDT",
-    USDT_QUANTITY: 2,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 2,
