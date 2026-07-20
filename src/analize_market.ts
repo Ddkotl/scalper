@@ -100,7 +100,7 @@ export async function analyzeMarket(
       driftPct,
       trendFactor,
       isSideways,
-      
+
       localMinPrice,
       localMaxPrice,
       localRange,

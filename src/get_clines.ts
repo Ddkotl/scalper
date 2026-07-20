@@ -1,8 +1,4 @@
-export async function getKlines(
-  symbol: string,
-  interval = "1m",
-  limit = 15,
-) {
+export async function getKlines(symbol: string, interval = "1m", limit = 15) {
   const url =
     `https://api.mexc.com/api/v3/klines` +
     `?symbol=${symbol}` +

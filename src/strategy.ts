@@ -133,10 +133,11 @@ export async function tradeLoop(config: CoinConfig) {
       }
 
       if (usdtBalance >= MIN_NOTIONAL && market.isSideways) {
-        const usdt_to_trade = Math.min(usdtBalance, USDT_QUANTITY) -  usdtToBuyOrders - usdtToSellOrders;
-        if (
-        usdt_to_trade <MIN_NOTIONAL
-        ) {
+        const usdt_to_trade =
+          Math.min(usdtBalance, USDT_QUANTITY) -
+          usdtToBuyOrders -
+          usdtToSellOrders;
+        if (usdt_to_trade < MIN_NOTIONAL) {
           await sleep(TRADE_INTERVAL_MS);
           continue;
         }

@@ -45,36 +45,40 @@ async function getPriceMap(symbols: string[]) {
 }
 
 async function getTradesLast12Hours(symbol: string): Promise<any[]> {
-    const allTrades: any[] = [];
+  const allTrades: any[] = [];
 
-    const endTime = Date.now();
-    const startTime = endTime - 12 * 60 * 60 * 1000;
+  const endTime = Date.now();
+  const startTime = endTime - 12 * 60 * 60 * 1000;
 
-    // Размер окна — 1 час
-    const interval = 60 * 60 * 1000;
+  // Размер окна — 1 час
+  const interval = 60 * 60 * 1000;
 
-    for (let currentStart = startTime; currentStart < endTime; currentStart += interval) {
-        const currentEnd = Math.min(currentStart + interval - 1, endTime);
+  for (
+    let currentStart = startTime;
+    currentStart < endTime;
+    currentStart += interval
+  ) {
+    const currentEnd = Math.min(currentStart + interval - 1, endTime);
 
-        try {
-            const trades = await client.accountTradeList(symbol, {
-                startTime: currentStart,
-                endTime: currentEnd,
-                limit: 1000,
-            });
+    try {
+      const trades = await client.accountTradeList(symbol, {
+        startTime: currentStart,
+        endTime: currentEnd,
+        limit: 1000,
+      });
 
-            if (Array.isArray(trades) && trades.length > 0) {
-                allTrades.push(...trades);
-            }
-        } catch (err) {
-            console.error(
-                `Ошибка загрузки сделок ${symbol} ${new Date(currentStart).toISOString()}:`,
-                err
-            );
-        }
+      if (Array.isArray(trades) && trades.length > 0) {
+        allTrades.push(...trades);
+      }
+    } catch (err) {
+      console.error(
+        `Ошибка загрузки сделок ${symbol} ${new Date(currentStart).toISOString()}:`,
+        err,
+      );
     }
+  }
 
-    return allTrades;
+  return allTrades;
 }
 
 async function calculateDailyPnl() {
@@ -137,7 +141,7 @@ async function calculateDailyPnl() {
     // 2. ПРИБАВЛЯЮТСЯ ОБЪЕМЫ ЗА ПРОДАЖУ ТЕКУЩИХ МОНЕТ
     // Имитируем продажу реального баланса кошелька по текущей рыночной цене
     const walletValue = realWalletBalance * currentPrice;
-    
+
     let totalSellVolumeWithWallet = result[symbol].sellVolume + walletValue;
     let totalSellQtyWithWallet = result[symbol].sellQty + realWalletBalance;
 
@@ -157,7 +161,8 @@ async function calculateDailyPnl() {
     }
 
     // Итоговый PnL: Общие продажи (с кошельком) - Общие покупки + Историческая корректировка дисбаланса
-    result[symbol].pnl = totalSellVolumeWithWallet - result[symbol].buyVolume + historyAdjustment;
+    result[symbol].pnl =
+      totalSellVolumeWithWallet - result[symbol].buyVolume + historyAdjustment;
     result[symbol].simulatedVolume = walletValue + historyAdjustment;
   }
 
@@ -175,7 +180,9 @@ async function calculateDailyPnl() {
   console.clear();
   console.table(rows);
   console.log(`----------------------------------------`);
-  console.log(`ОБЩИЙ PNL СЕССИИ (12ч): ${totalSessionPnl >= 0 ? "+" : ""}${totalSessionPnl.toFixed(2)} USDT`);
+  console.log(
+    `ОБЩИЙ PNL СЕССИИ (12ч): ${totalSessionPnl >= 0 ? "+" : ""}${totalSessionPnl.toFixed(2)} USDT`,
+  );
   console.log(`----------------------------------------`);
 }
 
