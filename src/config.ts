@@ -398,7 +398,7 @@ export const COINS_CONFIG: CoinConfig[] = [
     USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0001,
-    STOP_LOSS_PCT: 50,
+    STOP_LOSS_PCT: 100,
     SELL_RANGE: 0.6,
     BUY_RANGE: 0.3,
     MIN_NOTIONAL: 1.1,
@@ -411,7 +411,7 @@ export const COINS_CONFIG: CoinConfig[] = [
     CANDLES_INTERVAL: "5m",
     LOOCAL_LOOKBACK: 500,
     MIN_RANGE_PCT: 0,
-    MAX_RANGE_PCT: 50,
+    MAX_RANGE_PCT: 100,
     MAX_TREND_FACTOR: 0.9,
   },
    {
