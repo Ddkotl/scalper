@@ -18,15 +18,16 @@ export interface MarketRegime {
 
 export async function analyzeMarket(
   symbol: string,
-  lookbackMinutes: number,
+  lookbackCandles: number,
   localLookback: number, // <- НОВЫЙ ПАРАМЕТР: количество свечей для локального расчета
   minRangePct: number,
   maxRangePct: number,
   maxTrendFactor: number,
+  candlesInterval:string = "1m",
 ): Promise<MarketRegime | null> {
   try {
     // 1. Берём свечи 1m за последние N минут
-    const klines = await getKlines(symbol, "1m", lookbackMinutes);
+    const klines = await getKlines(symbol, candlesInterval, lookbackCandles);
     if (!klines || klines.length === 0) return null;
 
     let minPrice = Infinity;

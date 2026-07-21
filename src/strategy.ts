@@ -21,7 +21,8 @@ export async function tradeLoop(config: CoinConfig) {
     INTERVAL_AFTER_STOPLOSS_MS,
     ORDER_TIMEOUT_MS,
     TRADE_INTERVAL_MS,
-    ANALIZE_INTERVAL_MIN,
+    ANALIZE_INTERVAL_CANDLES,
+    CANDLES_INTERVAL,
     MAX_RANGE_PCT,
     MAX_TREND_FACTOR,
     MIN_RANGE_PCT,
@@ -39,11 +40,12 @@ export async function tradeLoop(config: CoinConfig) {
       // ==========================================
       const market = await analyzeMarket(
         SYMBOL,
-        ANALIZE_INTERVAL_MIN,
+        ANALIZE_INTERVAL_CANDLES,
         LOOCAL_LOOKBACK,
         MIN_RANGE_PCT,
         MAX_RANGE_PCT,
         MAX_TREND_FACTOR,
+        CANDLES_INTERVAL,
       );
 
       if (!market) continue;
