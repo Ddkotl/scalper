@@ -48,7 +48,7 @@ async function getTradesLast12Hours(symbol: string): Promise<any[]> {
   const allTrades: any[] = [];
 
   const endTime = Date.now();
-  const startTime = endTime - 12 * 60 * 60 * 1000;
+  const startTime = endTime - 24 * 60 * 60 * 1000;
 
   // Размер окна — 1 час
   const interval = 60 * 60 * 1000;
