@@ -7,9 +7,6 @@ export async function placeLimitOrder(
   symbol: string,
   priceStep: number,
 ) {
-  // console.log(
-  //   `[Ордер] ${side} ${price} ${quantity} ${symbol} ${priceStep} ${priceStep.toString()}`,
-  // );
   const decimals = priceStep < 1 ? Math.round(-Math.log10(priceStep)) : 0;
 
   const formattedPrice = price.toFixed(decimals);

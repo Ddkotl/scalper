@@ -8,6 +8,7 @@ import {
 } from "./orders";
 import { sleep } from "./utils";
 import { getAssetBalance } from "./wallet";
+import { getLastBuyPrice } from "./trades";
 
 export async function tradeLoop(config: CoinConfig) {
   const {
@@ -74,8 +75,10 @@ export async function tradeLoop(config: CoinConfig) {
       // ==========================================
       // 2. АНАЛИЗ СОСТОЯНИЯ И ПРИНЯТИЕ РЕШЕНИЙ
       // ==========================================
-      if (currentSellOrder.length > 0) {
-        const stopPrice = currentSellOrder.price * (1 - STOP_LOSS_PCT / 100);
+      if (coinValueInUsdt >= MIN_NOTIONAL) {
+      const buyPrice = await getLastBuyPrice(SYMBOL);
+        
+const stopPrice = Number(buyPrice) * (1 - STOP_LOSS_PCT / 100);
         if (currentPrice <= stopPrice) {
           console.log(
             `🚨 [${SYMBOL}] СТОП-ЛОСС! Цена ${currentPrice} <= ${stopPrice}. Экстренно выходим по рынку.`,
@@ -83,6 +86,9 @@ export async function tradeLoop(config: CoinConfig) {
           for (const order of currentBuyOrder) {
             await cancelOrder(order.orderId, SYMBOL);
           }
+          for (const order of currentSellOrder) {
+    await cancelOrder(order.orderId, SYMBOL);
+}
           await placeMarketSell(coinBalance, SYMBOL);
           console.log(`😴 [${SYMBOL}] Пауза после стоп-лосса.`);
           await sleep(INTERVAL_AFTER_STOPLOSS_MS);
@@ -138,7 +144,7 @@ export async function tradeLoop(config: CoinConfig) {
         const usdt_to_trade =
           Math.min(usdtBalance, USDT_QUANTITY) -
           usdtToBuyOrders -
-          usdtToSellOrders;
+          coinValueInUsdt;
         if (usdt_to_trade < MIN_NOTIONAL) {
           await sleep(TRADE_INTERVAL_MS);
           continue;
