@@ -400,7 +400,7 @@ export const COINS_CONFIG: CoinConfig[] = [
     PRICE_STEP: 0.0001,
     STOP_LOSS_PCT: 25,
     SELL_RANGE: 0.6,
-    BUY_RANGE: 0.2,
+    BUY_RANGE: 0.1,
     MIN_NOTIONAL: 1.1,
     ASSET_NAME: "ISEK",
     TRADE_INTERVAL_MS: 60000,
