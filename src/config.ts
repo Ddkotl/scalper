@@ -519,9 +519,9 @@ export const COINS_CONFIG: CoinConfig[] = [
     MAX_RANGE_PCT: 500,
     MAX_TREND_FACTOR: 0.95,
   },
-   {
-    SYMBOL: "KAZARUSDT",
-    USDT_QUANTITY: 20,
+  {
+  SYMBOL: "KAZARUSDT",
+    USDT_QUANTITY: 2,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 25,
