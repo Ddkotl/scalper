@@ -17,8 +17,17 @@ type SymbolStats = {
   pnl: number;
 };
 
-// Исправлено: Добавлен массив интервалов
-const INTERVALS_HOURS: number[] = [1,2, 6,12, 24];
+// Все интервалы переведены в часы для единообразия расчетов
+const INTERVALS_CONFIG = [
+  { label: "1 час", hours: 1 },
+  { label: "2 часа", hours: 2 },
+  { label: "6 часов", hours: 6 },
+  { label: "12 часов", hours: 12 },
+  { label: "1 день", hours: 24 },
+  { label: "2 дня", hours: 48 },
+  { label: "3 дня", hours: 72 },
+  { label: "7 дней", hours: 168 },
+];
 
 export function getActiveSymbols(): string[] {
   return COINS_CONFIG.map((c) => c.SYMBOL);
@@ -47,11 +56,12 @@ async function getPriceMap(symbols: string[]) {
   return map;
 }
 
-async function getTradesLast24Hours(symbol: string): Promise<any[]> {
+// Теперь функция скачивает сделки за максимальный интервал — 7 дней (168 часов)
+async function getTradesLast7Days(symbol: string): Promise<any[]> {
   const allTrades: any[] = [];
   const endTime = Date.now();
-  const startTime = endTime - 24 * 60 * 60 * 1000;
-  const interval = 60 * 60 * 1000;
+  const startTime = endTime - 7 * 24 * 60 * 60 * 1000; // 7 дней назад
+  const interval = 60 * 60 * 1000; // Окно запроса в 1 час
 
   for (let currentStart = startTime; currentStart < endTime; currentStart += interval) {
     const currentEnd = Math.min(currentStart + interval - 1, endTime);
@@ -147,49 +157,55 @@ async function calculateMultiPeriodPnl() {
   const balances = await getBalancesMap();
   const now = Date.now();
 
+  // Объект для хранения результатов. Ключ — количество часов интервала.
   const periodResults: Record<number, Record<string, SymbolStats>> = {};
   
-  // Исправлено: Добавлена явная типизация 'hours' для strict-режима TS
-  INTERVALS_HOURS.forEach((hours: number) => {
-    periodResults[hours] = {};
+  INTERVALS_CONFIG.forEach((config) => {
+    periodResults[config.hours] = {};
   });
 
   for (const symbol of symbols) {
-    const allTrades24h = await getTradesLast24Hours(symbol);
-    if (allTrades24h.length === 0) continue;
+    // Скачиваем за 7 дней
+    const allTrades7d = await getTradesLast7Days(symbol);
+    if (allTrades7d.length === 0) continue;
 
     const currentPrice = prices[symbol] || 0;
     const baseAsset = symbol.replace(/(USDT|USD|BUSD)$/, "");
     const realWalletBalance = balances[baseAsset] || 0;
 
-    for (const hours of INTERVALS_HOURS) {
-      const cutoffTime = now - hours * 60 * 60 * 1000;
-      const filteredTrades = allTrades24h.filter((t) => t.time >= cutoffTime);
+    for (const config of INTERVALS_CONFIG) {
+      const cutoffTime = now - config.hours * 60 * 60 * 1000;
+      const filteredTrades = allTrades7d.filter((t) => t.time >= cutoffTime);
 
-        if (filteredTrades.length > 0) {
-          // Гарантируем, что объект для данного периода инициализирован
-          periodResults[hours] = periodResults[hours] || {};
-          periodResults[hours]![symbol] = calculateStatsForPeriod(
-            symbol,
-            filteredTrades,
-            currentPrice,
-            realWalletBalance
-          );
+      if (filteredTrades.length > 0) {
+        // 1. Инициализируем объект, если его еще нет
+        if (!periodResults[config.hours]) {
+          periodResults[config.hours] = {};
         }
+        
+        // 2. Выносим в константу, чтобы TS гарантировал безопасность типа (не undefined)
+        const currentPeriodMap = periodResults[config.hours] ?? {};
+        
+        currentPeriodMap[symbol] = calculateStatsForPeriod(
+          symbol,
+          filteredTrades,
+          currentPrice,
+          realWalletBalance
+        );
+      }
     }
+
   }
 
   console.clear();
   console.log(`================================================================`);
-  console.log(`       ОТЧЕТ ПО ПЕРИОДАМ (Текущее время: ${dayjs().format("HH:mm:ss")})`);
+  console.log(`       МУЛЬТИПЕРИОДНЫЙ ОТЧЕТ (Текущее время: ${dayjs().format("HH:mm:ss")})`);
   console.log(`================================================================\n`);
 
-  for (const hours of INTERVALS_HOURS) {
-    // Исправлено: Добавлен fallback-объект {}, чтобы убрать ошибку 'possibly undefined'
-    const statsMap = periodResults[hours] || {};
+  for (const config of INTERVALS_CONFIG) {
+    const statsMap = periodResults[config.hours] || {};
     let totalSessionPnl = 0;
 
-    // Исправлено: Object.values теперь гарантированно получает валидный объект
     const rows = Object.values(statsMap).map((s) => {
       totalSessionPnl += s.pnl;
       return {
@@ -200,15 +216,15 @@ async function calculateMultiPeriodPnl() {
     });
 
     if (rows.length === 0) {
-      console.log(`⏱️ ПЕРИОД: ${hours} ч. — Нет сделок за этот период.`);
+      console.log(`⏱️ ПЕРИОД: ${config.label} — Нет сделок за этот период.`);
       console.log(`----------------------------------------------------------------\n`);
       continue;
     }
 
-    console.log(`⏱️ ПЕРИОД: ${hours} ч.`);
+    console.log(`⏱️ ПЕРИОД: ${config.label}`);
     console.table(rows);
     console.log(
-      `ИТОГ ЗА ${hours}ч: ${totalSessionPnl >= 0 ? "+" : ""}${totalSessionPnl.toFixed(2)} USDT`
+      `ИТОГ ЗА ${config.label}: ${totalSessionPnl >= 0 ? "+" : ""}${totalSessionPnl.toFixed(2)} USDT`
     );
     console.log(`----------------------------------------------------------------\n`);
   }
