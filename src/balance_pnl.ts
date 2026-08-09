@@ -33,11 +33,8 @@ export function getActiveSymbols(): string[] {
   return COINS_CONFIG.map((c) => c.SYMBOL);
 }
 export function getUsdtQtyToSymbol(symbol:string) : number{
-return COINS_CONFIG.map((c)=>{
-  if (c.SYMBOL === symbol){
-    return c.
-  }
-})
+let config =  COINS_CONFIG.find((c)=>c.SYMBOL === symbol)
+return config?.USDT_QUANTITY || 0
 }
 
 async function getBalancesMap() {
@@ -215,10 +212,12 @@ async function calculateMultiPeriodPnl() {
 
     const rows = Object.values(statsMap).map((s) => {
       totalSessionPnl += s.pnl;
+
       return {
         "Монета": s.symbol,
         "PnL (USDT)": s.pnl.toFixed(2),
         "Сделки": s.tradesCount,
+        "Обьем круга (USDT) " : getUsdtQtyToSymbol(s.symbol)
       };
     });
 
