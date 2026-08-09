@@ -32,6 +32,13 @@ const INTERVALS_CONFIG = [
 export function getActiveSymbols(): string[] {
   return COINS_CONFIG.map((c) => c.SYMBOL);
 }
+export function getUsdtQtyToSymbol(symbol:string) : number{
+return COINS_CONFIG.map((c)=>{
+  if (c.SYMBOL === symbol){
+    return c.
+  }
+})
+}
 
 async function getBalancesMap() {
   const acc = await client.accountInfo();
