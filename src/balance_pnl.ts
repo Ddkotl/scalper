@@ -32,6 +32,14 @@ const INTERVALS_CONFIG = [
 export function getActiveSymbols(): string[] {
   return COINS_CONFIG.map((c) => c.SYMBOL);
 }
+export function getUsdtQtyToSymbol(symbol:string) : number{
+let config =  COINS_CONFIG.find((c)=>c.SYMBOL === symbol)
+return config?.USDT_QUANTITY || 0
+}
+
+export function getUsdtToTrades():number{
+  return COINS_CONFIG.reduce((ac,cu)=>ac+=cu.USDT_QUANTITY , 0)
+}
 
 async function getBalancesMap() {
   const acc = await client.accountInfo();
@@ -58,6 +66,7 @@ async function getPriceMap(symbols: string[]) {
 
 // Теперь функция скачивает сделки за максимальный интервал — 7 дней (168 часов)
 async function getTradesLast7Days(symbol: string): Promise<any[]> {
+
   const allTrades: any[] = [];
   const endTime = Date.now();
   const startTime = endTime - 7 * 24 * 60 * 60 * 1000; // 7 дней назад
@@ -152,6 +161,8 @@ function calculateStatsForPeriod(
 }
 
 async function calculateMultiPeriodPnl() {
+  console.log("trade pair : " , COINS_CONFIG.length)
+  console.log("trade to :" , getUsdtToTrades())
   const symbols = getActiveSymbols();
   const prices = await getPriceMap(symbols);
   const balances = await getBalancesMap();
@@ -208,10 +219,12 @@ async function calculateMultiPeriodPnl() {
 
     const rows = Object.values(statsMap).map((s) => {
       totalSessionPnl += s.pnl;
+
       return {
         "Монета": s.symbol,
         "PnL (USDT)": s.pnl.toFixed(2),
         "Сделки": s.tradesCount,
+        "Обьем круга (USDT) " : getUsdtQtyToSymbol(s.symbol)
       };
     });
 

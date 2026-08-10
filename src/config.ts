@@ -38,7 +38,7 @@ export interface CoinConfig {
 export const COINS_CONFIG: CoinConfig[] = [
   {
     SYMBOL: "PARKUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
@@ -59,7 +59,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "SEDAUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 5,
@@ -80,7 +80,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "PLBUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 5,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0001,
     STOP_LOSS_PCT: 10,
@@ -101,7 +101,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "CORNUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 4,
@@ -122,7 +122,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "FORUUSDT",
-    USDT_QUANTITY: 50,
+    USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
@@ -143,7 +143,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "AIXDROPUSDT",
-    USDT_QUANTITY: 20,
+    USDT_QUANTITY: 5,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00000001,
     STOP_LOSS_PCT: 5,
@@ -164,7 +164,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "AIXUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 2,
@@ -185,7 +185,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "ALEUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0001,
     STOP_LOSS_PCT: 2,
@@ -206,7 +206,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "QFIUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 5,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.001,
     STOP_LOSS_PCT: 2,
@@ -227,7 +227,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "OMIUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 5,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 2,
@@ -248,7 +248,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "MGOUSDT",
-    USDT_QUANTITY: 10,
+    USDT_QUANTITY: 5,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.000001,
     STOP_LOSS_PCT: 2,
@@ -269,7 +269,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "DNUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 20,
@@ -290,7 +290,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "ASSETUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 10,
@@ -311,7 +311,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "PORUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 10,
@@ -332,7 +332,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "SHOTUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.000001,
     STOP_LOSS_PCT: 20,
@@ -353,7 +353,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
     {
     SYMBOL: "GCOINUSDT",
-    USDT_QUANTITY: 10,
+    USDT_QUANTITY: 5,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 5,
@@ -374,7 +374,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
    {
     SYMBOL: "TTNUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 5,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
@@ -416,7 +416,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
     {
     SYMBOL: "4663USDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 20,
@@ -437,7 +437,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
     {
     SYMBOL: "GHUBUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.000001,
     STOP_LOSS_PCT: 10,
@@ -458,7 +458,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
    {
     SYMBOL: "HANDLUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 20,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.000001,
     STOP_LOSS_PCT: 10,
@@ -500,7 +500,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "RIZEUSDT",
-    USDT_QUANTITY: 20,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.000001,
     STOP_LOSS_PCT: 10,
@@ -521,7 +521,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
     {
     SYMBOL: "KDXUSDT",
-    USDT_QUANTITY: 20,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 5,
@@ -605,7 +605,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
     {
     SYMBOL: "AIXPLAYUSDT",
-    USDT_QUANTITY: 40,
+    USDT_QUANTITY: 5,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 10,
