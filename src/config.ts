@@ -38,7 +38,7 @@ export interface CoinConfig {
 export const COINS_CONFIG: CoinConfig[] = [
   {
     SYMBOL: "PARKUSDT",
-    USDT_QUANTITY: 20,
+    USDT_QUANTITY: 50,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
@@ -122,7 +122,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "FORUUSDT",
-    USDT_QUANTITY: 20,
+    USDT_QUANTITY: 50,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
@@ -332,7 +332,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "SHOTUSDT",
-    USDT_QUANTITY: 20,
+    USDT_QUANTITY: 5,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.000001,
     STOP_LOSS_PCT: 20,
@@ -500,7 +500,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "RIZEUSDT",
-    USDT_QUANTITY: 10,
+    USDT_QUANTITY: 5,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.000001,
     STOP_LOSS_PCT: 10,
