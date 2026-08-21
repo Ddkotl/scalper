@@ -107,7 +107,7 @@ export async function analyzeMarket(
       localRange,
     };
   } catch (e: any) {
-    console.error("analyzeMarket error:", e.message || e);
+    console.error(symbol, "analyzeMarket error:", e.message || e);
     return null;
   }
 }
