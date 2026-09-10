@@ -80,7 +80,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "FORUUSDT",
-    USDT_QUANTITY: 70,
+    USDT_QUANTITY: 50,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
@@ -101,7 +101,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "AIXUSDT",
-    USDT_QUANTITY: 30,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0000001,
     STOP_LOSS_PCT: 2,
@@ -185,7 +185,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "DNUSDT",
-    USDT_QUANTITY: 70,
+    USDT_QUANTITY: 50,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 20,
@@ -502,7 +502,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
    {
     SYMBOL: "MODAUSDT",
-    USDT_QUANTITY: 5,
+    USDT_QUANTITY: 50,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.001,
     STOP_LOSS_PCT: 30,
@@ -522,7 +522,7 @@ export const COINS_CONFIG: CoinConfig[] = [
     MAX_TREND_FACTOR: 0.99,
   }, {
     SYMBOL: "PAALUSDT",
-    USDT_QUANTITY: 5,
+    USDT_QUANTITY: 2,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.000001,
     STOP_LOSS_PCT: 30,
@@ -543,7 +543,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
    {
     SYMBOL: "SEDAUSDT",
-    USDT_QUANTITY: 5,
+    USDT_QUANTITY: 2,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
