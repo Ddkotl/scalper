@@ -38,7 +38,7 @@ export interface CoinConfig {
 export const COINS_CONFIG: CoinConfig[] = [
   {
     SYMBOL: "PLBUSDT",
-    USDT_QUANTITY: 20,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0001,
     STOP_LOSS_PCT: 2,
@@ -185,7 +185,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "DNUSDT",
-    USDT_QUANTITY: 50,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 20,
@@ -290,7 +290,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
    {
     SYMBOL: "HANDLUSDT",
-    USDT_QUANTITY: 100,
+    USDT_QUANTITY: 50,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.000001,
     STOP_LOSS_PCT: 10,
