@@ -80,7 +80,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "FORUUSDT",
-    USDT_QUANTITY: 50,
+    USDT_QUANTITY: 75,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
@@ -185,7 +185,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
     {
     SYMBOL: "GHUBUSDT",
-    USDT_QUANTITY: 50,
+    USDT_QUANTITY: 75,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.000001,
     STOP_LOSS_PCT: 10,
@@ -206,7 +206,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
    {
     SYMBOL: "HANDLUSDT",
-    USDT_QUANTITY: 50,
+    USDT_QUANTITY: 75,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.000001,
     STOP_LOSS_PCT: 10,
@@ -237,7 +237,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   
     {
     SYMBOL: "PAALUSDT",
-    USDT_QUANTITY: 10,
+    USDT_QUANTITY: 2,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.000001,
     STOP_LOSS_PCT: 30,
