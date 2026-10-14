@@ -80,7 +80,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
   {
     SYMBOL: "FORUUSDT",
-    USDT_QUANTITY: 50,
+    USDT_QUANTITY: 70,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
@@ -238,7 +238,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
    {
     SYMBOL: "SEDAUSDT",
-    USDT_QUANTITY: 2,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 3,
@@ -259,7 +259,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
      {
     SYMBOL: "PYTHUSDT",
-    USDT_QUANTITY: 2,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.0001,
     STOP_LOSS_PCT: 10,
@@ -280,7 +280,7 @@ export const COINS_CONFIG: CoinConfig[] = [
   },
     {
     SYMBOL: "FUSEUSDT",
-    USDT_QUANTITY: 2,
+    USDT_QUANTITY: 10,
     QTY_STEP: 0.01,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 10,
