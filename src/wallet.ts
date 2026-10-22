@@ -4,15 +4,30 @@ export async function getAssetBalance(
   assetName: string,
 ): Promise<{ coinBalance: number; usdtBalance: number }> {
   try {
-    const accountInfo = await client.accountInfo();
-    if (!accountInfo?.balances) return { coinBalance: 0, usdtBalance: 0 };
+    // Для Единого торгового аккаунта (UTA) используем 'UNIFIED'. 
+    // Если у вас старый классический аккаунт, замените 'UNIFIED' на 'SPOT'
+    const response = await client.getWalletBalance({
+      accountType: "UNIFIED", 
+      coin: `${assetName},USDT`,
+    });
 
-    const asset = accountInfo.balances.find((b: any) => b.asset === assetName);
-    const usdt = accountInfo.balances.find((b: any) => b.asset === "USDT");
+    // Проверяем успешность ответа от Bybit (retCode === 0)
+    if (response.retCode !== 0 || !response.result?.list?.[0]?.coin) {
+      console.error("Ошибка API Bybit:", response.retMsg);
+      return { coinBalance: 0, usdtBalance: 0 };
+    }
+
+    const coinsList = response.result.list[0].coin;
+
+    const asset = coinsList.find((c: any) => c.coin === assetName);
+    const usdt = coinsList.find((c: any) => c.coin === "USDT");
 
     return {
-      coinBalance: asset ? parseFloat(asset.free) : 0,
-      usdtBalance: usdt ? parseFloat(usdt.free) : 0,
+      // walletBalance — общий баланс монеты на аккаунте
+      // Если вам нужен только доступный баланс для торговли (минус заблокированный в ордерах), 
+      // используйте поле 'availableToWithdraw' вместо 'walletBalance'
+      coinBalance: asset ? parseFloat(asset.walletBalance) : 0,
+      usdtBalance: usdt ? parseFloat(usdt.walletBalance) : 0,
     };
   } catch (e: any) {
     console.error(`Ошибка при получении баланса ${assetName}:`, e.message || e);

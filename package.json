@@ -24,12 +24,12 @@
   "homepage": "https://github.com/Ddkotl/scalper#readme",
   "dependencies": {
     "axios": "^1.17.0",
+    "bybit-api": "^4.8.2",
     "ccxt": "^4.5.56",
     "cli-table3": "^0.6.5",
     "date-fns": "^4.4.0",
     "dayjs": "^1.11.21",
-    "dotenv": "^17.4.2",
-    "mexc-api-sdk": "^1.0.3"
+    "dotenv": "^17.4.2"
   },
   "devDependencies": {
     "@types/node": "^25.9.2",
