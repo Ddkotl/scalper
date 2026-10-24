@@ -129,6 +129,7 @@ async function getTradesLast7Days(symbol: string): Promise<any[]> {
 }
 
 // 4. Расчет статистики периода (поля приведены к Bybit)
+// 4. Расчет статистики периода с учетом спотовой комиссии Bybit (0.1%)
 function calculateStatsForPeriod(
   symbol: string,
   trades: any[],
@@ -151,37 +152,52 @@ function calculateStatsForPeriod(
 
   if (trades.length === 0) return stats;
 
-  // Bybit поля: execPrice, execQty, side ('Buy' / 'Sell')
+  const FEE_RATE = 0.001; // Спотовая комиссия Bybit 0.1%
   const earliestPrice = Number(trades[0].execPrice);
-  let rollingBuyQty = 0;
+  
+  let rollingBuyQtyWithFee = 0;
   let rollingBuyVol = 0;
 
   for (const t of trades) {
     const p = Number(t.execPrice);
     const q = Number(t.execQty);
-    const value = p * q;
+    const rawValue = p * q;
 
     if (t.side === "Buy") {
-      stats.buyVolume += value;
-      stats.buyQty += q;
-      rollingBuyQty += q;
-      rollingBuyVol += value;
+      // При покупке тратим полный объем USDT
+      stats.buyVolume += rawValue;
+      
+      // Чистый объем полученной монеты за вычетом комиссии 0.1%
+      const netQty = q * (1 - FEE_RATE);
+      stats.buyQty += netQty;
+      
+      rollingBuyQtyWithFee += netQty;
+      rollingBuyVol += rawValue;
     } else {
-      stats.sellVolume += value;
+      // При продаже получаем USDT за вычетом комиссии 0.1%
+      const netValue = rawValue * (1 - FEE_RATE);
+      stats.sellVolume += netValue;
+      
+      // Продается полный объем монеты из ордера
       stats.sellQty += q;
       stats.actualSells += 1;
 
-      const currentAvgBuyPrice = rollingBuyVol / (rollingBuyQty || 1);
+      // Сравнение со средней ценой покупки (с учетом потерь на комиссию)
+      const currentAvgBuyPrice = rollingBuyVol / (rollingBuyQtyWithFee || 1);
       if (p > currentAvgBuyPrice) {
         stats.winTrades += 1;
       }
     }
   }
 
+  // Оценка текущих остатков в кошельке
   const walletValue = realWalletBalance * currentPrice;
+  
+  // Общий объем реализации: чистые USDT с продаж + текущая стоимость монет на балансе
   const totalSellVolumeWithWallet = stats.sellVolume + walletValue;
   const totalSellQtyWithWallet = stats.sellQty + realWalletBalance;
 
+  // Расчет дельты объемов для корректировки PnL по историческим границам периода
   const qtyDelta = stats.buyQty - totalSellQtyWithWallet;
   let historyAdjustment = 0;
 
@@ -191,11 +207,13 @@ function calculateStatsForPeriod(
     historyAdjustment = -(Math.abs(qtyDelta) * earliestPrice);
   }
 
+  // Финальный PnL с учетом всех комиссий
   stats.pnl = totalSellVolumeWithWallet - stats.buyVolume + historyAdjustment;
   stats.simulatedVolume = walletValue + historyAdjustment;
 
   return stats;
 }
+
 
 async function calculateMultiPeriodPnl() {
   console.log("trade pair : ", COINS_CONFIG.length);

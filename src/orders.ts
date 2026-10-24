@@ -33,7 +33,12 @@ export async function placeLimitOrder(
     });
 
     if (response.retCode !== 0) {
-      console.error(`Ошибка API Bybit при создании ордера:`, response.retMsg);
+      console.error(
+        `Ошибка API Bybit при создании ордера:`,
+        symbol,
+        bybitSide,
+        response.retMsg,
+      );
       return null;
     }
 
@@ -102,12 +107,8 @@ export async function getOpenOrders(symbol: string) {
     const openOrders = response.result.list;
 
     // Bybit возвращает сторону как "Buy" или "Sell"
-    const currentBuyOrder = openOrders.filter(
-      (o: any) => o.side === "Buy",
-    );
-    const currentSellOrder = openOrders.filter(
-      (o: any) => o.side === "Sell",
-    );
+    const currentBuyOrder = openOrders.filter((o: any) => o.side === "Buy");
+    const currentSellOrder = openOrders.filter((o: any) => o.side === "Sell");
 
     return { currentBuyOrder, currentSellOrder };
   } catch (e: any) {

@@ -32,7 +32,9 @@ export async function tradeLoop(config: CoinConfig) {
     LOOCAL_LOOKBACK,
   } = config;
 
-  console.log(`🚀 Робот запущен для пары ${SYMBOL} в Stateless-режиме под Bybit V5.`);
+  console.log(
+    `🚀 Робот запущен для пары ${SYMBOL} в Stateless-режиме под Bybit V5.`,
+  );
 
   while (true) {
     try {
@@ -53,23 +55,27 @@ export async function tradeLoop(config: CoinConfig) {
       const { currentBuyOrder, currentSellOrder } = await getOpenOrders(SYMBOL);
       const { coinBalance, usdtBalance } = await getAssetBalance(ASSET_NAME);
 
-      if (coinBalance === null || usdtBalance === null || currentBuyOrder === null || currentSellOrder === null) {
+      if (
+        coinBalance === null ||
+        usdtBalance === null ||
+        currentBuyOrder === null ||
+        currentSellOrder === null
+      ) {
         console.log(
           `⚠️ [${SYMBOL}] Не удалось собрать все данные с биржи. Пропускаем тик...`,
         );
         await sleep(TRADE_INTERVAL_MS);
         continue;
       }
-      
+
       // Гарантируем, что если балансы пришли как undefined/null, они станут равны 0
       const safeCoinBalance = coinBalance || 0;
-      
+
       const currentPrice = market.currentPrice;
-      
+
       // Теперь тут гарантированно будет число, а не NaN
-      const coinValueInUsdt = safeCoinBalance * currentPrice; 
-      
-      
+      const coinValueInUsdt = safeCoinBalance * currentPrice;
+
       // На Bybit объем ордера лежит в qty, цена в price
       const usdtToBuyOrders = currentBuyOrder.reduce(
         (sum: number, order: { qty: string; price: string }) =>
@@ -81,13 +87,13 @@ export async function tradeLoop(config: CoinConfig) {
           sum + Number(order.qty) * Number(order.price),
         0,
       );
-      
+
       // ==========================================
       // 2. АНАЛИЗ СОСТОЯНИЯ И ПРИНЯТИЕ РЕШЕНИЙ
       // ==========================================
       if (coinValueInUsdt >= MIN_NOTIONAL) {
         const buyPrice = await getLastBuyPrice(SYMBOL);
-        
+
         const stopPrice = Number(buyPrice) * (1 - STOP_LOSS_PCT / 100);
         if (currentPrice <= stopPrice) {
           console.log(
@@ -99,13 +105,25 @@ export async function tradeLoop(config: CoinConfig) {
           for (const order of currentSellOrder) {
             await cancelOrder(order.orderId, SYMBOL);
           }
-          await placeMarketSell(coinBalance, SYMBOL);
+
+          // Округляем перед экстренным маркет-селлом
+          const qtyStepNum = Number(QTY_STEP);
+          const decimals_qty =
+            qtyStepNum < 1 && qtyStepNum > 0
+              ? Math.round(-Math.log10(qtyStepNum))
+              : 0;
+          const formattedStopQty = safeCoinBalance.toFixed(decimals_qty);
+
+          if (Number(formattedStopQty) > 0) {
+            await placeMarketSell(Number(formattedStopQty), SYMBOL); // Передаем число/строку в зависимости от вашей функции
+          }
+
           console.log(`😴 [${SYMBOL}] Пауза после стоп-лосса.`);
           await sleep(INTERVAL_AFTER_STOPLOSS_MS);
           continue;
         }
       }
-      
+
       // Проверка таймаута лимитных ордеров на покупку
       if (currentBuyOrder.length > 0) {
         for (const order of currentBuyOrder) {
@@ -141,42 +159,66 @@ export async function tradeLoop(config: CoinConfig) {
         if (targetSellPrice < minAllowedSellPrice) {
           targetSellPrice = minAllowedSellPrice;
         }
+
+        // --- НОВЫЙ БЛОК: Округляем объем продажи по QTY_STEP ---
+               // Находим количество знаков после запятой
+        const qtyStepNum = Number(QTY_STEP);
+        const decimals_qty = qtyStepNum < 1 && qtyStepNum > 0 
+          ? Math.round(-Math.log10(qtyStepNum)) 
+          : 0;
+
+        // Жесткое округление ВНИЗ, чтобы никогда не превысить баланс и не плодить лишние знаки
+        const factor = Math.pow(10, decimals_qty);
+        const formattedSellQty = (Math.floor(safeCoinBalance * factor) / factor).toFixed(decimals_qty);
+
+        if (Number(formattedSellQty) <= 0) {
+          console.log(`⚠️ [${SYMBOL}] Слишком маленький баланс для округления вниз (${safeCoinBalance}). Пропускаем...`);
+          await sleep(TRADE_INTERVAL_MS);
+          continue;
+        }
+
+
         const sellOrder = await placeLimitOrder(
           "SELL",
           targetSellPrice,
-          coinBalance.toString(),
+          formattedSellQty, // Передаем округленную строку вместо coinBalance.toString()
           SYMBOL,
           PRICE_STEP,
         );
         if (sellOrder?.orderId) {
           console.log(
-            `💰 [${SYMBOL}] Выставлен Тейк-Профит на ${coinBalance} ${ASSET_NAME} по цене ${targetSellPrice}`,
+            `💰 [${SYMBOL}] Выставлен Тейк-Профит на ${formattedSellQty} ${ASSET_NAME} по цене ${targetSellPrice}`,
           );
         }
       }
 
       // Логика выставления ордера на покупку во флете
-      if (usdtBalance >= MIN_NOTIONAL && market.isSideways && currentBuyOrder.length === 0) {
+      if (
+        usdtBalance >= MIN_NOTIONAL &&
+        market.isSideways &&
+        currentBuyOrder.length === 0
+      ) {
         const usdt_to_trade =
           Math.min(usdtBalance, USDT_QUANTITY) -
-          usdtToBuyOrders - usdtToSellOrders -
+          usdtToBuyOrders -
+          usdtToSellOrders -
           coinValueInUsdt;
         if (usdt_to_trade < MIN_NOTIONAL) {
           await sleep(TRADE_INTERVAL_MS);
           continue;
         }
-        
+
         const coinQty = (usdt_to_trade * 0.99) / market.currentPrice;
         const decimals_qty = QTY_STEP.toString().split(".")[1]?.length || 0;
         const formatedQty = coinQty.toFixed(decimals_qty);
-        
+
         let targetBuyPrice =
           market.localMinPrice + market.localRange * BUY_RANGE;
         const maxAllowedBuyPrice = market.currentPrice - PRICE_STEP;
         if (targetBuyPrice > maxAllowedBuyPrice) {
           targetBuyPrice = maxAllowedBuyPrice;
         }
-        
+
         console.log(
           `📈 [${SYMBOL}] Выставляем ордер BUY на ${formatedQty} ${ASSET_NAME} по цене ${targetBuyPrice}`,
         );
