@@ -38,7 +38,7 @@ export interface CoinConfig {
 export const COINS_CONFIG: CoinConfig[] = [
   {
     SYMBOL: "CORNUSDT",
-    USDT_QUANTITY: 200,
+    USDT_QUANTITY: 2,
     QTY_STEP: 1,
     PRICE_STEP: 0.00001,
     STOP_LOSS_PCT: 4,
